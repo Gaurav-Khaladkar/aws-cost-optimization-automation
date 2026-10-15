@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="treeBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#1E293B" />
+    </linearGradient>
+    <linearGradient id="actionDelete" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#EF4444" />
+      <stop offset="100%" stop-color="#B91C1C" />
+    </linearGradient>
+    <linearGradient id="actionKeep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="stepCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="100%" stop-color="#1E293B" />
+    </linearGradient>
+    <marker id="flowArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94A3B8" />
+    </marker>
+  </defs>
+
+  <style>
+    .step-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 700; font-size: 13px; fill: #FFFFFF; }
+    .step-desc { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 500; font-size: 11px; fill: #94A3B8; }
+    .decision-label { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 700; font-size: 11px; }
+  </style>
+
+  <!-- Background -->
+  <rect width="1000" height="520" rx="14" fill="url(#treeBg)" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Header -->
+  <text x="40" y="45" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="20" fill="#F8FAFC">⚡ Autonomous Deletion Evaluation Matrix</text>
+  <text x="40" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="400" font-size="12" fill="#94A3B8">Safety-First Decision Tree implemented in ebs_stale_snapshosts.py</text>
+
+  <!-- Node 0: Input Trigger -->
+  <g transform="translate(40, 110)">
+    <rect width="180" height="70" rx="8" fill="url(#stepCard)" stroke="#38BDF8" stroke-width="1.5" />
+    <text x="16" y="30" class="step-title">Snapshot Iterator</text>
+    <text x="16" y="50" class="step-desc">describe_snapshots(self)</text>
+  </g>
+
+  <!-- Arrow 0 -> 1 -->
+  <path d="M 220 145 L 280 145" fill="none" stroke="#94A3B8" stroke-width="2" marker-end="url(#flowArrow)" />
+
+  <!-- Node 1: Check VolumeId -->
+  <g transform="translate(280, 110)">
+    <polygon points="100,0 200,45 100,90 0,45" fill="#1E293B" stroke="#F59E0B" stroke-width="2" />
+    <text x="100" y="40" class="step-title" text-anchor="middle" font-size="12">Has VolumeId?</text>
+    <text x="100" y="58" class="step-desc" text-anchor="middle">snapshot.get('VolumeId')</text>
+  </g>
+
+  <!-- Arrow 1 (NO) -> DELETE -->
+  <path d="M 380 200 L 380 340 L 720 340" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#flowArrow)" />
+  <text x="390" y="270" class="decision-label" fill="#EF4444">NO (Missing Source)</text>
+
+  <!-- Arrow 1 (YES) -> Node 2 -->
+  <path d="M 480 155 L 530 155" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#flowArrow)" />
+  <text x="490" y="145" class="decision-label" fill="#10B981">YES</text>
+
+  <!-- Node 2: Describe Volume -->
+  <g transform="translate(530, 110)">
+    <polygon points="100,0 200,45 100,90 0,45" fill="#1E293B" stroke="#3B82F6" stroke-width="2" />
+    <text x="100" y="40" class="step-title" text-anchor="middle" font-size="12">Volume Exists?</text>
+    <text x="100" y="58" class="step-desc" text-anchor="middle">describe_volumes()</text>
+  </g>
+
+  <!-- Arrow 2 (ClientError InvalidVolume.NotFound) -> DELETE -->
+  <path d="M 630 200 L 630 380 L 720 380" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#flowArrow)" />
+  <text x="635" y="270" class="decision-label" fill="#EF4444">NO (Volume Deleted)</text>
+
+  <!-- Arrow 2 (YES) -> Node 3 -->
+  <path d="M 730 155 L 770 155 L 770 200" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#flowArrow)" />
+  <text x="740" y="145" class="decision-label" fill="#10B981">YES</text>
+
+  <!-- Node 3: Check Attachments -->
+  <g transform="translate(670, 200)">
+    <polygon points="100,0 200,45 100,90 0,45" fill="#1E293B" stroke="#A855F7" stroke-width="2" />
+    <text x="100" y="38" class="step-title" text-anchor="middle" font-size="12">Attached to Instance?</text>
+    <text x="100" y="55" class="step-desc" text-anchor="middle">Attachments list empty?</text>
+  </g>
+
+  <!-- Arrow 3 (NO attachments) -> DELETE -->
+  <path d="M 770 290 L 770 420 L 720 420" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#flowArrow)" />
+  <text x="778" y="315" class="decision-label" fill="#EF4444">EMPTY (Unattached)</text>
+
+  <!-- Arrow 3 (YES attachments & running) -> KEEP -->
+  <path d="M 870 245 L 900 245 L 900 155 L 720 155" fill="none" stroke="#10B981" stroke-width="0" />
+
+  <!-- Action: KEEP / PRESERVE -->
+  <g transform="translate(680, 40)">
+    <rect width="280" height="50" rx="8" fill="url(#actionKeep)" filter="url(#shadow)" />
+    <text x="20" y="31" class="step-title" font-size="14">🛡️ PRESERVE: Active In-Use Snapshot</text>
+  </g>
+  <path d="M 870 245 L 920 245 L 920 90 L 820 90" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#flowArrow)" />
+  <text x="895" y="190" class="decision-label" fill="#10B981">YES (Attached)</text>
+
+  <!-- Action: DELETE -->
+  <g transform="translate(720, 340)">
+    <rect width="240" height="110" rx="10" fill="url(#actionDelete)" filter="url(#shadow)" />
+    <text x="20" y="32" class="step-title" font-size="15">🗑️ PURGE STALE SNAPSHOT</text>
+    <text x="20" y="55" class="step-desc" fill="#FEE2E2">• ec2.delete_snapshot(SnapshotId)</text>
+    <text x="20" y="75" class="step-desc" fill="#FEE2E2">• Log event to CloudWatch</text>
+    <text x="20" y="95" class="step-desc" fill="#FEF08A">💰 Stop recurring EBS storage bill</text>
+  </g>
+</svg>

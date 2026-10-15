@@ -1,0 +1,243 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="canvasBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D1117" />
+      <stop offset="100%" stop-color="#161B22" />
+    </linearGradient>
+
+    <!-- Node Gradients -->
+    <linearGradient id="lambdaNode" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF9900" />
+      <stop offset="100%" stop-color="#E07B00" />
+    </linearGradient>
+
+    <linearGradient id="eventbridgeNode" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF4F8B" />
+      <stop offset="100%" stop-color="#D81B60" />
+    </linearGradient>
+
+    <linearGradient id="safeNode" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <linearGradient id="deleteNode" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EF4444" />
+      <stop offset="100%" stop-color="#DC2626" />
+    </linearGradient>
+
+    <linearGradient id="blueCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+
+    <linearGradient id="cloudwatchNode" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+
+    <!-- Glow & Shadow -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+
+    <filter id="nodeGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Arrow Marker -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B" />
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#FF9900" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444" />
+    </marker>
+  </defs>
+
+  <style>
+    .header-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 700; font-size: 24px; fill: #F8FAFC; }
+    .sub-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 400; font-size: 13px; fill: #94A3B8; }
+    .box-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 700; font-size: 15px; fill: #FFFFFF; }
+    .box-detail { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 500; font-size: 11px; fill: #CBD5E1; }
+    .code-text { font-family: 'Courier New', Courier, monospace; font-size: 11px; fill: #38BDF8; font-weight: 600; }
+    .lane-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 700; font-size: 13px; fill: #94A3B8; letter-spacing: 1.5px; }
+  </style>
+
+  <!-- Background -->
+  <rect width="1200" height="680" rx="16" fill="url(#canvasBg)" />
+  <rect width="1198" height="678" x="1" y="1" rx="15" fill="none" stroke="#30363D" stroke-width="1.5" />
+
+  <!-- Diagram Title Area -->
+  <g transform="translate(50, 40)">
+    <text x="0" y="0" class="header-text">AWS Cost Optimization System Architecture</text>
+    <text x="0" y="24" class="sub-text">Autonomous Serverless Workflow • Stale EBS Snapshot Detection &amp; Zero-Waste Purge Engine</text>
+  </g>
+
+  <!-- Stage Container 1: Trigger & Schedule -->
+  <rect x="40" y="100" width="220" height="530" rx="12" fill="#161B22" stroke="#30363D" stroke-width="1" />
+  <text x="60" y="130" class="lane-title">1. TRIGGER &amp; SCHEDULER</text>
+
+  <!-- EventBridge Card -->
+  <g transform="translate(60, 160)" filter="url(#shadow)">
+    <rect width="180" height="130" rx="10" fill="url(#blueCard)" stroke="#FF4F8B" stroke-width="1.5" />
+    <circle cx="35" cy="35" r="16" fill="url(#eventbridgeNode)" />
+    <text x="35" y="40" font-size="16" text-anchor="middle" fill="#FFFFFF">⏰</text>
+    <text x="60" y="32" class="box-title">EventBridge</text>
+    <text x="60" y="48" class="box-detail" fill="#FF4F8B">Cron Rule</text>
+    <line x1="16" y1="70" x2="164" y2="70" stroke="#334155" stroke-width="1" />
+    <text x="20" y="90" class="code-text">cron(0 1 * * ? *)</text>
+    <text x="20" y="108" class="box-detail">Daily 01:00 UTC</text>
+  </g>
+
+  <!-- IAM Role Card -->
+  <g transform="translate(60, 340)" filter="url(#shadow)">
+    <rect width="180" height="130" rx="10" fill="url(#blueCard)" stroke="#38BDF8" stroke-width="1.5" />
+    <circle cx="35" cy="35" r="16" fill="#0284C7" />
+    <text x="35" y="40" font-size="16" text-anchor="middle" fill="#FFFFFF">🛡️</text>
+    <text x="60" y="32" class="box-title">IAM Role</text>
+    <text x="60" y="48" class="box-detail" fill="#38BDF8">Least-Privilege</text>
+    <line x1="16" y1="70" x2="164" y2="70" stroke="#334155" stroke-width="1" />
+    <text x="20" y="90" class="code-text">ec2:Describe*</text>
+    <text x="20" y="108" class="code-text">ec2:DeleteSnapshot</text>
+  </g>
+
+
+  <!-- Stage Container 2: Compute Engine -->
+  <rect x="290" y="100" width="280" height="530" rx="12" fill="#161B22" stroke="#30363D" stroke-width="1" />
+  <text x="310" y="130" class="lane-title">2. COMPUTE &amp; AUDIT LOGIC</text>
+
+  <!-- AWS Lambda Function Card -->
+  <g transform="translate(310, 160)" filter="url(#shadow)">
+    <rect width="240" height="440" rx="10" fill="url(#blueCard)" stroke="#FF9900" stroke-width="1.5" />
+    <circle cx="35" cy="35" r="16" fill="url(#lambdaNode)" />
+    <text x="35" y="40" font-size="16" text-anchor="middle" fill="#FFFFFF">λ</text>
+    <text x="60" y="32" class="box-title">AWS Lambda</text>
+    <text x="60" y="48" class="box-detail" fill="#FF9900">Python 3.12 / Boto3</text>
+    <line x1="16" y1="70" x2="224" y2="70" stroke="#334155" stroke-width="1" />
+
+    <!-- Step Items inside Lambda -->
+    <rect x="16" y="85" width="208" height="46" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="26" y="104" class="box-title" font-size="12">Step 1: Inventory Snapshots</text>
+    <text x="26" y="120" class="code-text">describe_snapshots(self)</text>
+
+    <rect x="16" y="142" width="208" height="46" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="26" y="161" class="box-title" font-size="12">Step 2: Active Instances</text>
+    <text x="26" y="177" class="code-text">state-name: 'running'</text>
+
+    <rect x="16" y="200" width="208" height="56" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="26" y="219" class="box-title" font-size="12">Step 3: Volume Cross-Ref</text>
+    <text x="26" y="235" class="code-text">describe_volumes(vol_id)</text>
+    <text x="26" y="247" class="box-detail">Inspect attachment links</text>
+
+    <rect x="16" y="268" width="208" height="70" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="26" y="287" class="box-title" font-size="12">Step 4: Error Handling</text>
+    <text x="26" y="303" class="code-text">ClientError Catch</text>
+    <text x="26" y="319" class="box-detail">Detects InvalidVolume.NotFound</text>
+
+    <rect x="16" y="350" width="208" height="70" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="26" y="370" class="box-title" font-size="12">Execution Specs</text>
+    <text x="26" y="388" class="box-detail">• Memory: 128 MB</text>
+    <text x="26" y="404" class="box-detail">• Timeout: 60s (avg runtime ~2s)</text>
+  </g>
+
+
+  <!-- Stage Container 3: Decision Engine -->
+  <rect x="600" y="100" width="280" height="530" rx="12" fill="#161B22" stroke="#30363D" stroke-width="1" />
+  <text x="620" y="130" class="lane-title">3. DECISION &amp; ACTION</text>
+
+  <!-- Decision: Safe Active -->
+  <g transform="translate(620, 160)" filter="url(#shadow)">
+    <rect width="240" height="130" rx="10" fill="url(#blueCard)" stroke="#10B981" stroke-width="1.5" />
+    <circle cx="35" cy="35" r="16" fill="url(#safeNode)" />
+    <text x="35" y="41" font-size="16" text-anchor="middle" fill="#FFFFFF">✓</text>
+    <text x="60" y="32" class="box-title">PROTECTED</text>
+    <text x="60" y="48" class="box-detail" fill="#34D399">In-Use by Active Instance</text>
+    <line x1="16" y1="70" x2="224" y2="70" stroke="#334155" stroke-width="1" />
+    <text x="24" y="92" class="box-detail">Volume attached to running EC2</text>
+    <text x="24" y="110" class="box-title" fill="#34D399">Action: NO DELETION</text>
+  </g>
+
+  <!-- Decision: Stale / Orphaned -->
+  <g transform="translate(620, 315)" filter="url(#shadow)">
+    <rect width="240" height="285" rx="10" fill="url(#blueCard)" stroke="#EF4444" stroke-width="1.5" />
+    <circle cx="35" cy="35" r="16" fill="url(#deleteNode)" />
+    <text x="35" y="41" font-size="16" text-anchor="middle" fill="#FFFFFF">✕</text>
+    <text x="60" y="32" class="box-title">STALE DETECTED</text>
+    <text x="60" y="48" class="box-detail" fill="#F87171">Cost Drain Identified</text>
+    <line x1="16" y1="70" x2="224" y2="70" stroke="#334155" stroke-width="1" />
+
+    <text x="24" y="95" class="box-title" font-size="12" fill="#FCA5A5">Trigger Conditions:</text>
+    <text x="24" y="115" class="box-detail">1. VolumeId is empty/null</text>
+    <text x="24" y="135" class="box-detail">2. Volume is unattached</text>
+    <text x="24" y="155" class="box-detail">3. Volume deleted (NotFound)</text>
+
+    <line x1="16" y1="175" x2="224" y2="175" stroke="#334155" stroke-width="1" />
+
+    <rect x="16" y="190" width="208" height="42" rx="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
+    <text x="26" y="210" class="box-title" font-size="12" fill="#FFFFFF">⚡ ec2.delete_snapshot()</text>
+    <text x="26" y="224" class="box-detail" fill="#FECACA">Immediate Cost Recovery</text>
+
+    <text x="24" y="258" class="box-detail" fill="#94A3B8">Safeguard: Verifies self-owner</text>
+  </g>
+
+
+  <!-- Stage Container 4: Observability & FinOps -->
+  <rect x="910" y="100" width="250" height="530" rx="12" fill="#161B22" stroke="#30363D" stroke-width="1" />
+  <text x="930" y="130" class="lane-title">4. TELEMETRY &amp; FINOPS</text>
+
+  <!-- CloudWatch Logs -->
+  <g transform="translate(930, 160)" filter="url(#shadow)">
+    <rect width="210" height="130" rx="10" fill="url(#blueCard)" stroke="#3B82F6" stroke-width="1.5" />
+    <circle cx="35" cy="35" r="16" fill="url(#cloudwatchNode)" />
+    <text x="35" y="41" font-size="16" text-anchor="middle" fill="#FFFFFF">📊</text>
+    <text x="60" y="32" class="box-title">CloudWatch</text>
+    <text x="60" y="48" class="box-detail" fill="#60A5FA">Logs &amp; Metrics</text>
+    <line x1="16" y1="70" x2="194" y2="70" stroke="#334155" stroke-width="1" />
+    <text x="20" y="92" class="box-detail">• Audit Event Trail</text>
+    <text x="20" y="110" class="box-detail">• Snapshot IDs Deleted</text>
+  </g>
+
+  <!-- Amazon SNS Notifications -->
+  <g transform="translate(930, 315)" filter="url(#shadow)">
+    <rect width="210" height="130" rx="10" fill="url(#blueCard)" stroke="#A855F7" stroke-width="1.5" />
+    <circle cx="35" cy="35" r="16" fill="#9333EA" />
+    <text x="35" y="41" font-size="16" text-anchor="middle" fill="#FFFFFF">🔔</text>
+    <text x="60" y="32" class="box-title">Amazon SNS</text>
+    <text x="60" y="48" class="box-detail" fill="#C084FC">Executive Digest</text>
+    <line x1="16" y1="70" x2="194" y2="70" stroke="#334155" stroke-width="1" />
+    <text x="20" y="92" class="box-detail">• Email / Slack Webhook</text>
+    <text x="20" y="110" class="box-detail">• Daily Purge Counter</text>
+  </g>
+
+  <!-- Cost Explorer ROI -->
+  <g transform="translate(930, 470)" filter="url(#shadow)">
+    <rect width="210" height="130" rx="10" fill="url(#blueCard)" stroke="#10B981" stroke-width="1.5" />
+    <circle cx="35" cy="35" r="16" fill="url(#safeNode)" />
+    <text x="35" y="41" font-size="16" text-anchor="middle" fill="#FFFFFF">💰</text>
+    <text x="60" y="32" class="box-title">FinOps ROI</text>
+    <text x="60" y="48" class="box-detail" fill="#34D399">Cost Explorer</text>
+    <line x1="16" y1="70" x2="194" y2="70" stroke="#334155" stroke-width="1" />
+    <text x="20" y="92" class="box-detail">• $0.05/GB/mo saved</text>
+    <text x="20" y="110" class="box-title" fill="#34D399">Zero Idle Waste</text>
+  </g>
+
+  <!-- Connective Arrows -->
+  <path d="M 240 225 L 310 225" fill="none" stroke="#FF9900" stroke-width="2" marker-end="url(#arrow-orange)" />
+  <path d="M 150 340 L 150 310 L 310 310" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow)" />
+
+  <path d="M 550 225 L 620 225" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)" />
+  <path d="M 550 380 L 620 380" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)" />
+
+  <path d="M 860 380 L 930 225" fill="none" stroke="#64748B" stroke-width="1.5" marker-end="url(#arrow)" />
+  <path d="M 860 450 L 930 380" fill="none" stroke="#64748B" stroke-width="1.5" marker-end="url(#arrow)" />
+  <path d="M 860 520 L 930 520" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)" />
+
+</svg>
