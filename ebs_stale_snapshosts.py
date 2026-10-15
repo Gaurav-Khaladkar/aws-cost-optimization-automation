@@ -1,3 +1,12 @@
+"""
+=============================================================================
+AWS Cost Optimization Automation - Stale EBS Snapshot Purger
+Author: Gaurav Khaladkar
+GitHub: https://github.com/Gaurav-Khaladkar
+Repository: https://github.com/Gaurav-Khaladkar/aws-cost-optimization-automation
+=============================================================================
+"""
+
 import os
 import boto3
 

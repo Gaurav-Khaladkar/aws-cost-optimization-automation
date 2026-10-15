@@ -537,13 +537,24 @@ Expand this serverless FinOps engine into a comprehensive multi-service cost gua
 - [ ] **Multi-Account AWS Organizations Support (StackSets)**
 - [ ] **Slack / Teams Interactive Approval Webhook (Dry-Run Mode)**
 
+## 👨‍💻 Author
+
+<p align="left">
+  <strong>Gaurav Khaladkar</strong><br>
+  <em>Cloud & DevOps Engineer</em>
+</p>
+
+<p align="left">
+  <a href="https://github.com/Gaurav-Khaladkar"><img src="https://img.shields.io/badge/GitHub-Gaurav--Khaladkar-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" /></a>
+  <a href="mailto:gauravkhaldkar2001@gmail.com"><img src="https://img.shields.io/badge/Email-gauravkhaldkar2001%40gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" /></a>
+</p>
+
 ---
 
-## 👨‍💻 Author & Contributions
+## 🤝 Contributions & Support
 
-Built for **DevOps, Platform, Cloud & FinOps Engineers** looking to eliminate unnecessary cloud waste.
-
-- **Contributions:** Pull requests and feature enhancements are welcome! Please open an issue first to discuss your ideas.
+Contributions, issues, and feature requests are welcome!
+Feel free to open an issue or pull request on the [GitHub Repository](https://github.com/Gaurav-Khaladkar/aws-cost-optimization-automation).
 
 <p align="center">
   ⭐ <strong>If this project helped optimize your AWS bill, please give it a Star!</strong> ⭐

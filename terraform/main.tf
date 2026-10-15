@@ -71,6 +71,7 @@ resource "aws_lambda_function" "cost_optimizer" {
     Environment = "Production"
     ManagedBy   = "Terraform"
     Purpose     = "FinOps-CostOptimization"
+    Author      = "Gaurav Khaladkar"
   }
 }
 
