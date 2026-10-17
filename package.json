@@ -1,0 +1,19 @@
+{
+  "name": "aws-cost-optimization-automation-console",
+  "version": "1.0.0",
+  "description": "Autonomous Serverless FinOps Governance & Automated EBS Snapshot Cost Reduction Engine Web Console",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "chrome": "node server.js"
+  },
+  "keywords": [
+    "aws",
+    "finops",
+    "cost-optimization",
+    "ebs-snapshot",
+    "lambda"
+  ],
+  "author": "Gaurav Khaladkar",
+  "license": "MIT"
+}

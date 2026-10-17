@@ -42,12 +42,15 @@ This project delivers an **enterprise-grade, 100% serverless, event-driven FinOp
 - [⏱️ Event-Driven Execution Sequence](#️-event-driven-execution-sequence)
 - [💰 FinOps ROI & Savings Calculator](#-finops-roi--savings-calculator)
 - [🏛️ AWS Well-Architected Framework Alignment](#️-aws-well-architected-framework-alignment)
-- [📂 Project Topology](#-project-topology)
+- [💻 Interactive Web Console & FinOps Simulator](#-interactive-web-console--finops-simulator)
+- [📂 Project Topology & Component Catalog](#-project-topology--component-catalog)
 - [🚀 Rapid Deployment Blueprints](#-rapid-deployment-blueprints)
   - [Option A: One-Click Terraform](#option-a-one-click-terraform-recommended)
   - [Option B: AWS CLI Deployment](#option-b-aws-cli-deployment)
   - [Option C: AWS Management Console](#option-c-aws-management-console-walkthrough)
 - [🔐 Least-Privilege IAM Security Policy](#-least-privilege-iam-security-policy)
+- [⚙️ Configuration & Environment Variables](#️-configuration--environment-variables)
+- [🩺 Troubleshooting & Failure Remediation Matrix](#-troubleshooting--failure-remediation-matrix)
 - [📈 Observability & CloudWatch Telemetry](#-observability--cloudwatch-telemetry)
 - [🔮 Multi-Service Roadmap](#-multi-service-roadmap)
 
@@ -301,7 +304,41 @@ mindmap
 
 ---
 
-# 📂 Project Topology
+# 💻 Interactive Web Console & FinOps Simulator
+
+In addition to headless serverless execution via AWS Lambda, this repository includes an **enterprise-grade, interactive FinOps Web Console** that runs directly in your browser (Google Chrome, Edge, etc.) without complex cloud prerequisites.
+
+### ⚡ Key Capabilities
+- **Direct Chrome Runner**: Launch with zero external setup using `start_chrome.bat` or native Node server.
+- **Triple-Stage Decision Simulation**: Evaluates sample and real snapshots against active EC2 instance attachments and volume state.
+- **Dry-Run vs. Live Remediation**: Toggle safely between audit mode and automated purging.
+- **CloudWatch Live Telemetry Stream**: Real-time terminal log viewer reproducing Python Boto3 Lambda execution line-by-line.
+- **FinOps ROI & Savings Calculator**: Dynamic sliders to estimate monthly and annual savings across snapshot storage tiers.
+- **Cloud Fleet Topology Presets**: Test multi-account enterprise mix, QA/dev CI/CD teardown leakage, and clean production fleets.
+- **Audit Export**: Export discovered inventories and purge decisions to CSV and JSON.
+
+### 🏃 Quick Launch Options
+
+#### Option 1: Double-Click Batch File (Fastest on Windows)
+```cmd
+start_chrome.bat
+```
+*Opens Google Chrome directly loading the web console.*
+
+#### Option 2: Local Node.js Server
+```bash
+npm start
+# or
+node server.js
+```
+*Serves the web console at `http://localhost:3000` and automatically launches Chrome.*
+
+#### Option 3: Direct Browser File
+Simply open `index.html` in Google Chrome or any modern web browser.
+
+---
+
+# 📂 Project Topology & Component Catalog
 
 ```
 aws-cost-optimization-automation/
@@ -311,6 +348,13 @@ aws-cost-optimization-automation/
 │   └── decision-flow.svg                     # Algorithmic decision tree SVG
 │
 ├── ebs_stale_snapshosts.py                   # Core AWS Lambda Python handler with Boto3
+│
+├── index.html                                # Interactive FinOps Web Console & Simulator UI
+├── style.css                                 # Modern dark glassmorphism design system
+├── app.js                                    # Client-side decision engine & CloudWatch simulator
+├── server.js                                 # Native zero-dependency Node.js HTTP server
+├── start_chrome.bat                          # One-click direct Chrome launcher for Windows
+├── package.json                              # Runner configurations (npm start / npm run chrome)
 │
 ├── iam/                                      # IAM Security Specifications
 │   └── policy.json                           # Least-privilege IAM policy document
@@ -323,6 +367,22 @@ aws-cost-optimization-automation/
 │
 └── README.md                                 # Graphical documentation & architecture manual
 ```
+
+### 📑 Component Architecture Catalog
+
+| Component / Artifact | Architecture Layer | Operational Responsibility | Tech Stack / Protocol |
+| :--- | :--- | :--- | :--- |
+| [`ebs_stale_snapshosts.py`](file:///c:/Users/hp/Desktop/Mentore%20Solution/Projects/AWS%20Clude/aws-cost-optimization-automation/ebs_stale_snapshosts.py) | **Compute & Logic** | Serverless FinOps handler performing 3-stage snapshot validation and remediation | Python 3.12, AWS SDK (Boto3) |
+| [`terraform/main.tf`](file:///c:/Users/hp/Desktop/Mentore%20Solution/Projects/AWS%20Clude/aws-cost-optimization-automation/terraform/main.tf) | **Infrastructure as Code** | Automated provisioning of IAM roles, Lambda zip artifact, and EventBridge rule | HashiCorp Terraform (AWS Provider >= 5.0) |
+| [`iam/policy.json`](file:///c:/Users/hp/Desktop/Mentore%20Solution/Projects/AWS%20Clude/aws-cost-optimization-automation/iam/policy.json) | **Security & Access** | Granular least-privilege policy allowing volume/snapshot checks and targeted purge | AWS IAM Policy Standard |
+| [`eventbridge/schedule.json`](file:///c:/Users/hp/Desktop/Mentore%20Solution/Projects/AWS%20Clude/aws-cost-optimization-automation/eventbridge/schedule.json) | **Event Orchestration** | Declares standard cron trigger cadence (`cron(0 1 * * ? *)` daily at 01:00 UTC) | Amazon EventBridge / CloudWatch Events |
+| [`index.html`](file:///c:/Users/hp/Desktop/Mentore%20Solution/Projects/AWS%20Clude/aws-cost-optimization-automation/index.html) | **Presentation (UI)** | Interactive FinOps dashboard with real-time audit tables, KPIs, and controls | Semantic HTML5, WAI-ARIA, Google Fonts |
+| [`style.css`](file:///c:/Users/hp/Desktop/Mentore%20Solution/Projects/AWS%20Clude/aws-cost-optimization-automation/style.css) | **Visual Design System** | Glassmorphism UI tokens, AWS cloud colors, animations, and responsive layout | Vanilla CSS3, Flexbox/CSS Grid, Backdrop Blur |
+| [`app.js`](file:///c:/Users/hp/Desktop/Mentore%20Solution/Projects/AWS%20Clude/aws-cost-optimization-automation/app.js) | **Client Runtime Logic** | Simulates Boto3 decision engine, streaming CloudWatch logs, and ROI calculator | Pure ES6+ JavaScript, Web Storage & Blob APIs |
+| [`server.js`](file:///c:/Users/hp/Desktop/Mentore%20Solution/Projects/AWS%20Clude/aws-cost-optimization-automation/server.js) | **Local HTTP Server** | Ultra-fast native HTTP server with automatic Google Chrome launch capability | Node.js Native (`http`, `fs`, `child_process`) |
+| [`start_chrome.bat`](file:///c:/Users/hp/Desktop/Mentore%20Solution/Projects/AWS%20Clude/aws-cost-optimization-automation/start_chrome.bat) | **Windows Automation** | 1-Click batch script to execute and render the dashboard directly in Chrome | Windows Batch Script |
+| [`package.json`](file:///c:/Users/hp/Desktop/Mentore%20Solution/Projects/AWS%20Clude/aws-cost-optimization-automation/package.json) | **Project Configuration** | Defines Node scripts (`npm start`, `npm run chrome`) and metadata | NPM / JSON Schema |
+| [`assets/`](file:///c:/Users/hp/Desktop/Mentore%20Solution/Projects/AWS%20Clude/aws-cost-optimization-automation/assets) | **Graphics & Diagrams** | High-impact SVG visual banner, architecture topography, and decision flow | Scalable Vector Graphics (SVG) |
 
 ---
 
@@ -483,6 +543,31 @@ This architecture follows the **Principle of Least Privilege (PoLP)**. The Lambd
   ]
 }
 ```
+
+---
+
+# ⚙️ Configuration & Environment Variables
+
+The Lambda function and execution engine can be customized using environment variables without modifying source code.
+
+| Variable Name | Type | Default | Description | FinOps Recommendation |
+| :--- | :--- | :--- | :--- | :--- |
+| `DRY_RUN` | String / Boolean | `"false"` | When set to `true`, logs all deletion candidates without making destructive API calls. | Set to `true` during initial enterprise staging audit. |
+| `AWS_REGION` | String | Region from AWS SDK | Sets target AWS Region for EC2/EBS descriptors and remediation. | Matches the primary compute region (e.g. `us-east-1`). |
+| `LOG_LEVEL` | String | `"INFO"` | Configures logging verbosity (`DEBUG`, `INFO`, `WARNING`, `ERROR`). | Use `INFO` in production, `DEBUG` during migration audits. |
+| `PORT` | Integer | `3000` | Port for local interactive Node.js Web Console server. | Default `3000` or assigned container port. |
+
+---
+
+# 🩺 Troubleshooting & Failure Remediation Matrix
+
+| Symptom / Error Pattern | Root Cause | Impact | Verified Remediation Procedure |
+| :--- | :--- | :--- | :--- |
+| `ClientError: InvalidVolume.NotFound` | Snapshot's original parent EBS volume was permanently deleted. | Handled gracefully by script; candidate identified for deletion. | **Expected behavior.** The automation catches this specific error code (`66-73` in [`ebs_stale_snapshosts.py`](file:///c:/Users/hp/Desktop/Mentore%20Solution/Projects/AWS%20Clude/aws-cost-optimization-automation/ebs_stale_snapshosts.py#L66-L73)) and safely purges the orphan. |
+| `ClientError: UnauthorizedOperation` (403) | Execution IAM role lacks required `ec2:DeleteSnapshot` or descriptor permissions. | Lambda audit fails to delete snapshots. | Ensure [`iam/policy.json`](file:///c:/Users/hp/Desktop/Mentore%20Solution/Projects/AWS%20Clude/aws-cost-optimization-automation/iam/policy.json) is properly attached to the Lambda execution role. |
+| `Task timed out after 60.00 seconds` | AWS account has thousands of snapshots requiring paginated API calls. | Execution aborts before completion. | Increase Lambda timeout to 120s or 300s in [`terraform/main.tf`](file:///c:/Users/hp/Desktop/Mentore%20Solution/Projects/AWS%20Clude/aws-cost-optimization-automation/terraform/main.tf) and allocate 256MB RAM. |
+| `EventBridge Rule Not Triggering` | Scheduled rule is disabled or lacks Lambda resource invocation policy. | Automated daily run does not execute. | Verify EventBridge rule state is `ENABLED` and run `aws lambda add-permission` for `events.amazonaws.com`. |
+| `Port 3000 EADDRINUSE` (Local Console) | Another local service is bound to port 3000. | Node server fails to bind. | Run `Get-NetTCPConnection -LocalPort 3000` or specify a custom port: `PORT=3001 node server.js`. |
 
 ---
 

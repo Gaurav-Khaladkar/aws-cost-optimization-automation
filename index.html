@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWS FinOps Cost Optimizer | EBS Stale Snapshot Automation Console</title>
+  <meta name="description" content="Autonomous Serverless FinOps Governance & Automated EBS Snapshot Cost Reduction Engine. Real-time scanning, dry-run simulation, and automated waste remediation.">
+  
+  <!-- Modern Typography Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Top Navigation Bar -->
+    <header class="top-navbar">
+      <div class="brand-section">
+        <div class="brand-logo-badge" title="AWS FinOps Engine">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+        </div>
+        <div class="brand-titles">
+          <div class="brand-title">
+            AWS FinOps Optimizer
+            <span class="live-pill"><span class="pulse-dot"></span> Lambda Online</span>
+          </div>
+          <div class="brand-subtitle">Autonomous EBS Snapshot Governance & Cost Remediation Engine</div>
+        </div>
+      </div>
+
+      <!-- Controls: Region & Mode -->
+      <div class="nav-center-controls">
+        <div class="region-select-wrap">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+          <select id="regionSelect" class="nav-select">
+            <option value="us-east-1">us-east-1 (N. Virginia)</option>
+            <option value="us-west-2">us-west-2 (Oregon)</option>
+            <option value="eu-west-1">eu-west-1 (Ireland)</option>
+            <option value="ap-south-1">ap-south-1 (Mumbai)</option>
+            <option value="ap-southeast-1">ap-southeast-1 (Singapore)</option>
+          </select>
+        </div>
+
+        <div style="width: 1px; height: 18px; background: var(--border-subtle);"></div>
+
+        <div class="mode-toggle-group">
+          <label class="switch" title="Toggle between Dry Run (Safe Audit) and Live Remediation">
+            <input type="checkbox" id="dryRunSwitch">
+            <span class="slider"></span>
+          </label>
+          <span id="modeLabel" class="mode-label dry-run">DRY RUN (AUDIT)</span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="nav-actions">
+        <button id="btnRunScan" class="btn btn-primary" title="Trigger autonomous scan evaluation">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          Run Scan Audit
+        </button>
+
+        <button id="btnExecutePurge" class="btn btn-danger" title="Purge identified zombie snapshots">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+          Purge Zombies
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Header & Value Overview -->
+    <section class="hero-banner">
+      <div class="hero-header">
+        <div class="hero-text">
+          <h1>
+            <span>EBS Snapshot Cost Reduction Console</span>
+          </h1>
+          <p>
+            Continuous detection and algorithmic purging of orphaned EBS snapshots. Evaluates real-time EC2 instance attachment states, prevents silent cloud storage bills ($0.05/GB-mo), and guarantees 100% safety for active production data.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem;">
+          <button id="btnOpenModal" class="btn btn-secondary btn-sm">
+            ➕ Add Mock Snapshot
+          </button>
+          <button id="btnExportCsv" class="btn btn-secondary btn-sm" title="Export audit results as CSV">
+            📄 Export CSV
+          </button>
+          <button id="btnExportJson" class="btn btn-secondary btn-sm" title="Export raw JSON inventory">
+            📦 Export JSON
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Metrics Grid -->
+      <div class="metrics-grid">
+        <!-- Monthly Waste -->
+        <div class="metric-card waste">
+          <div class="metric-top">
+            <span class="metric-label">Identified Waste</span>
+            <div class="metric-icon" style="color: #ef4444;">💸</div>
+          </div>
+          <div id="metricMonthlyWaste" class="metric-value highlight-danger">$0.00</div>
+          <div class="metric-sub">
+            <span>Billed monthly at $0.05/GB</span>
+          </div>
+        </div>
+
+        <!-- Annual Projected Savings -->
+        <div class="metric-card savings">
+          <div class="metric-top">
+            <span class="metric-label">Annualized ROI</span>
+            <div class="metric-icon" style="color: #10b981;">📈</div>
+          </div>
+          <div id="metricAnnualSavings" class="metric-value highlight-success">$0.00</div>
+          <div class="metric-sub">
+            <span>Net recurring OpEx savings</span>
+          </div>
+        </div>
+
+        <!-- Orphaned Snapshots -->
+        <div class="metric-card orphaned">
+          <div class="metric-top">
+            <span class="metric-label">Zombie Snapshots</span>
+            <div class="metric-icon" style="color: #f59e0b;">🗑️</div>
+          </div>
+          <div id="metricOrphanedCount" class="metric-value">0</div>
+          <div id="metricOrphanedSub" class="metric-sub">0 GB Orphaned Data</div>
+        </div>
+
+        <!-- Protected Production Snapshots -->
+        <div class="metric-card protected">
+          <div class="metric-top">
+            <span class="metric-label">Protected In-Use</span>
+            <div class="metric-icon" style="color: #3b82f6;">🛡️</div>
+          </div>
+          <div id="metricProtectedCount" class="metric-value">0</div>
+          <div class="metric-sub">100% Data Safety Guardrail</div>
+        </div>
+
+        <!-- Total Scanned -->
+        <div class="metric-card scanned">
+          <div class="metric-top">
+            <span class="metric-label">Inventory Scanned</span>
+            <div class="metric-icon" style="color: var(--aws-orange);">📸</div>
+          </div>
+          <div id="metricScannedCount" class="metric-value highlight-aws">0</div>
+          <div id="metricScannedSub" class="metric-sub">0 GB Total Volume</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Autonomous Decision Pipeline Visualizer -->
+    <section class="pipeline-section">
+      <div class="pipeline-header">
+        <div class="pipeline-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--aws-orange)" stroke-width="2.2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+          Autonomous Triple-Stage Decision Architecture
+        </div>
+        <span style="font-size: 0.78rem; color: var(--text-muted);">
+          Algorithm from <code>ebs_stale_snapshosts.py</code> • Click any step to filter
+        </span>
+      </div>
+
+      <div class="pipeline-steps">
+        <div class="pipe-card" data-step="1">
+          <div class="pipe-step-num">Stage 1: Discovery</div>
+          <div class="pipe-card-title">Inventory Self Snapshots</div>
+          <div class="pipe-card-desc">Queries AWS EC2 for snapshots owned by account (<code>OwnerIds=['self']</code>).</div>
+          <span class="pipe-badge badge-blue">ec2:DescribeSnapshots</span>
+        </div>
+
+        <div class="pipe-card" data-step="2">
+          <div class="pipe-step-num">Stage 2: Instance Context</div>
+          <div class="pipe-card-title">Active EC2 Discovery</div>
+          <div class="pipe-card-desc">Finds all running EC2 instance IDs. Creates lookup index for attachment cross-check.</div>
+          <span class="pipe-badge badge-purple">ec2:DescribeInstances</span>
+        </div>
+
+        <div class="pipe-card" data-step="3">
+          <div class="pipe-step-num">Stage 3: Volume Cross-Ref</div>
+          <div class="pipe-card-title">Volume Attachment Audit</div>
+          <div class="pipe-card-desc">Checks if source volume exists. Catches <code>InvalidVolume.NotFound</code> & unattached states.</div>
+          <span class="pipe-badge badge-orange">ec2:DescribeVolumes</span>
+        </div>
+
+        <div class="pipe-card" data-step="4">
+          <div class="pipe-step-num">Stage 4: Execution</div>
+          <div class="pipe-card-title">Purge or Preserve</div>
+          <div class="pipe-card-desc">Safely retains active production data; safely purges orphaned zombies with zero manual effort.</div>
+          <span class="pipe-badge badge-cyan">ec2:DeleteSnapshot</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Grid: Snapshot Data Table & CloudWatch Terminal -->
+    <div class="content-grid">
+      
+      <!-- Panel 1: Data Table -->
+      <div class="panel-card">
+        <div class="panel-card-header">
+          <div class="panel-card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="3" y1="9" x2="21" y2="9"></line>
+              <line x1="9" y1="21" x2="9" y2="9"></line>
+            </svg>
+            EBS Snapshot Inventory & FinOps Evaluation
+          </div>
+        </div>
+
+        <!-- Filter Toolbar -->
+        <div class="filter-toolbar">
+          <div class="search-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Search by snapshot, volume, tag...">
+          </div>
+
+          <div class="filter-chips">
+            <button class="filter-chip active" data-filter="all">All</button>
+            <button class="filter-chip" data-filter="orphaned">Zombie Candidates</button>
+            <button class="filter-chip" data-filter="novolume">No Source Volume</button>
+            <button class="filter-chip" data-filter="unattached">Unattached Volume</button>
+            <button class="filter-chip" data-filter="protected">Protected (In-Use)</button>
+          </div>
+        </div>
+
+        <!-- Table Responsive -->
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Snapshot Name / ID</th>
+                <th>Size</th>
+                <th>Volume ID</th>
+                <th>EC2 Instance</th>
+                <th>Est. Cost</th>
+                <th>Governance Verdict</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="snapshotTableBody">
+              <!-- Dynamically rendered by app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Panel 2: CloudWatch Live Terminal -->
+      <div class="panel-card terminal-card">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <div class="dot dot-red"></div>
+            <div class="dot dot-yellow"></div>
+            <div class="dot dot-green"></div>
+          </div>
+          <div class="terminal-title">cloudwatch-logs: /aws/lambda/ebs-stale-snapshot-optimizer</div>
+          <button id="btnClearLogs" class="btn btn-ghost btn-sm" style="padding: 0.15rem 0.5rem; font-size: 0.72rem;">
+            Clear
+          </button>
+        </div>
+
+        <div id="terminalBody" class="terminal-body">
+          <!-- Real-time log entries appended by app.js -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Section: FinOps ROI Calculator & Scenario Presets -->
+    <div class="bottom-section">
+      
+      <!-- FinOps ROI Calculator -->
+      <div class="calc-box">
+        <div class="calc-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--status-success)" stroke-width="2">
+            <rect x="2" y="2" width="20" height="20" rx="3"></rect>
+            <line x1="8" y1="6" x2="16" y2="6"></line>
+            <line x1="12" y1="10" x2="12" y2="18"></line>
+            <line x1="8" y1="14" x2="16" y2="14"></line>
+          </svg>
+          Enterprise FinOps ROI & Savings Calculator
+        </div>
+        <div class="calc-sub">
+          Estimate potential cost reductions across your AWS organization based on EBS snapshot volume and retention patterns.
+        </div>
+
+        <div class="calc-inputs">
+          <div class="range-group">
+            <div class="range-header">
+              <span>Unattached / Stale Snapshot Count</span>
+              <span id="roiSnapshotCountVal">50 snapshots</span>
+            </div>
+            <input type="range" id="roiSnapshotCount" min="10" max="1000" step="10" value="50">
+          </div>
+
+          <div class="range-group">
+            <div class="range-header">
+              <span>Average Snapshot Size (GB)</span>
+              <span id="roiAvgSizeVal">120 GB</span>
+            </div>
+            <input type="range" id="roiAvgSize" min="20" max="2000" step="20" value="120">
+          </div>
+
+          <div class="range-group">
+            <div class="range-header">
+              <span>Storage Tier Rate</span>
+              <span>$0.05 / GB-mo (Standard)</span>
+            </div>
+            <select id="roiStorageTier" class="form-select" style="background: var(--bg-input); color: #fff; padding: 0.4rem 0.6rem;">
+              <option value="0.05">AWS EBS Standard Snapshot ($0.05 / GB-month)</option>
+              <option value="0.0125">AWS EBS Archive Tier ($0.0125 / GB-month)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="calc-result-box">
+          <div>
+            <div class="calc-result-label">Projected Monthly Savings</div>
+            <div id="roiMonthlyVal" class="calc-result-value">$300.00/mo</div>
+          </div>
+          <div style="text-align: right;">
+            <div class="calc-result-label">Projected Annual Savings</div>
+            <div id="roiAnnualVal" class="calc-result-value" style="color: #60a5fa;">$3,600.00/yr</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Presets / Quick Test Scenarios -->
+      <div class="scenarios-box">
+        <div class="calc-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--aws-orange)" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          Cloud Infrastructure Test Scenarios
+        </div>
+        <div class="calc-sub">
+          Quickly switch between pre-configured cloud topologies to test the automation algorithm under varying fleet conditions.
+        </div>
+
+        <div class="scenario-buttons">
+          <div class="scenario-btn active" data-scenario="enterprise">
+            <div class="scenario-name">🏢 Enterprise Production Mix</div>
+            <div class="scenario-desc">Realistic multi-account fleet with prod databases, dev caches, and unattached volumes.</div>
+          </div>
+
+          <div class="scenario-btn" data-scenario="qa_leakage">
+            <div class="scenario-name">🚨 Dev/QA Teardown Leak</div>
+            <div class="scenario-desc">Heavy orphaned snapshot buildup caused by CI/CD teardowns leaving zombie storage.</div>
+          </div>
+
+          <div class="scenario-btn" data-scenario="production_clean">
+            <div class="scenario-name">🟢 Well-Architected Clean Fleet</div>
+            <div class="scenario-desc">All snapshots strictly bound to running production EC2 instances. Zero waste.</div>
+          </div>
+
+          <div class="scenario-btn" onclick="document.getElementById('btnOpenModal').click();">
+            <div class="scenario-name">➕ Custom Test Case</div>
+            <div class="scenario-desc">Inject custom snapshot ID, volume attachment, and size to verify edge-case behavior.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div>
+        <strong>AWS Cost Optimization Automation</strong> • Built with Python 3.12, Boto3, AWS Lambda & EventBridge
+      </div>
+      <div class="footer-links">
+        <a href="README.md" target="_blank">Documentation</a>
+        <a href="https://github.com/Gaurav-Khaladkar/aws-cost-optimization-automation" target="_blank">GitHub Repository</a>
+        <a href="terraform/main.tf" target="_blank">Terraform IaC</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Modal: Add Custom Snapshot -->
+  <div id="addSnapshotModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Inject Custom EBS Snapshot</h3>
+        <button id="btnCloseModal" class="btn btn-ghost btn-sm" style="font-size: 1.2rem; line-height: 1;">&times;</button>
+      </div>
+      <form id="addSnapshotForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Workload Name / Tag</label>
+            <input type="text" id="newSnapName" class="form-input" placeholder="e.g. dev-cluster-snapshot-test" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Snapshot Size (GB)</label>
+            <input type="number" id="newSnapSize" class="form-input" min="1" max="16000" value="100" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Volume Attachment State</label>
+            <select id="newSnapVolState" class="form-select">
+              <option value="unattached">Orphaned: Volume exists but Detached</option>
+              <option value="deleted">Orphaned: Volume Deleted (InvalidVolume.NotFound)</option>
+              <option value="none">Orphaned: No Source Volume Tagged</option>
+              <option value="attached">Protected: Volume Attached to Running EC2</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="document.getElementById('addSnapshotModal').classList.remove('open')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add to Inventory</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- JavaScript Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
